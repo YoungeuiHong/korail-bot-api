@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from korail_reservation import reserve_train, Train
 from korail_payment import pay_train
 from card_ocr import process_document
+from korail_search import search_train
 
 app = FastAPI()
 
@@ -12,6 +13,10 @@ class Train(BaseModel):
     destination: str
     date: str
     time: str
+
+@app.post("/search")
+async def search_train_endpoint(train: Train):
+    return await search_train(train)
 
 @app.post("/reservation")
 async def reserve_train_endpoint(train: Train):
